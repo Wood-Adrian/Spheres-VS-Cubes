@@ -130,7 +130,7 @@ static void Init() {
 	SYS_SetPowerCallback(PowerCallback);
 	WPAD_SetPowerButtonCallback(WiimotePowerCallback);
 	
-	//fuck you fuck you fuck you fuck you fuck you fuck you fuck you fuck you
+	//This is kept here as a reminder of the pain and suffering that calling this function caused me
 	//settime(0);
 
 	//test if write lock is on
@@ -152,7 +152,7 @@ static void Init() {
 
 			GRRLIB_Render();
 		}
-		//quit to loader since i cant be fucked to deal with write lock nonsense
+		//quit to loader since i cant be bothered to deal with write lock nonsense
 		if (powerState == PowerState::ON) powerState = PowerState::TOLOADER;
 		//return early to not even load save file
 		return;
@@ -835,7 +835,7 @@ void RunGame() {
 				GRRLIB_DrawCube(2.0f, true, Cube::Colour(0));
 			}
 		}
-		
+		//3 platforms to test transparency
 		//platform
 		GRRLIB_ObjectView(0, -5, 0, 0, 0, 0, 20, 1, 20);
 		GRRLIB_3dMode(0.1, 1000, cameraData.FOV, 1, 1);
@@ -1094,7 +1094,7 @@ void MainMenu() {
 		RefreshPads();
 
 		logOffset = 4;
-		Printf(to_string(saveGame));
+		//Printf(to_string(saveGame));
 
 		u32 buttonDown = GetButtonsDown(0);
 		Stick buttonStickL = GetLeftStick(0);
@@ -1169,9 +1169,9 @@ void MainMenu() {
 
 		//render options
 		GRRLIB_Printf(50, 200, texFont, (selectedOption == 0) ? colourSelected : colourDeselected, 1, "Play");
-		GRRLIB_Printf(50, 230, texFont, (selectedOption == 1) ? colourSelected : colourDeselected, 1, "Shop (Under Construction)");
+		GRRLIB_Printf(50, 230, texFont, (selectedOption == 1) ? colourSelected : colourDeselected, 1, "Shop (Under Construction, currently saves game)");
 		GRRLIB_Printf(50, 260, texFont, (selectedOption == 2) ? colourSelected : colourDeselected, 1, "Quit to loader");
-		GRRLIB_Printf(50, 260, texFont, (selectedOption == 3) ? colourSelected : colourDeselected, 1, "Turn off wii");
+		GRRLIB_Printf(50, 290, texFont, (selectedOption == 3) ? colourSelected : colourDeselected, 1, "Turn off wii");
 
 		GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xff);
 
@@ -1212,12 +1212,13 @@ void MainMenu() {
 
 		GRRLIB_SetBackgroundColour(0x11, 0x1d, 0x4a, 255);
 
+		/* Debug info
 		Printf(to_string(buttonDown));
 		Printf(to_string(buttonStickL.x) + " " + to_string(buttonStickL.y));
 		Printf(to_string(texPrevFrame->w) + " x " + to_string(texPrevFrame->h));
 		Printf(to_string(texPrevFrame->offsetx) + " offset " + to_string(texPrevFrame->offsety));
 		Printf(to_string(texPrevFrame->handlex) + " handle " + to_string(texPrevFrame->handley));
-
+		*/
 		GRRLIB_Render();
 	}
 #ifdef DEBUG_TESTLOOP

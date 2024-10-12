@@ -27,10 +27,10 @@ static u32 ButtonFormat(u32 wpadValue, u16 padValue) {
 		returnValue |= BUTTON_PAUSE;
 	}
 
-	if ((wpadValue & (WPAD_CLASSIC_BUTTON_X)) or (padValue & PAD_BUTTON_X)) {
+	if ((wpadValue & (WPAD_CLASSIC_BUTTON_X)) || (padValue & PAD_BUTTON_X)) {
 		returnValue |= BUTTON_EX_X;
 	}
-	if ((wpadValue & (WPAD_CLASSIC_BUTTON_Y)) or (padValue & PAD_BUTTON_Y)) {
+	if ((wpadValue & (WPAD_CLASSIC_BUTTON_Y)) || (padValue & PAD_BUTTON_Y)) {
 		returnValue |= BUTTON_EX_Y;
 	}
 

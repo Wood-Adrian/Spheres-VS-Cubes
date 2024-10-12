@@ -1,4 +1,4 @@
-main.o: T:/wii_code/projects/3dwii/source/main.cpp \
+main.o: T:/wii_code/Projects/3dwii/source/main.cpp \
  T:/devkitPro/libogc/include/ogcsys.h \
  T:/devkitPro/libogc/include/gccore.h \
  T:/devkitPro/libogc/include/ogc/dsp.h \
@@ -75,18 +75,18 @@ main.o: T:/wii_code/projects/3dwii/source/main.cpp \
  T:/devkitPro/libogc/include/asndlib.h \
  T:/devkitPro/libogc/include/mp3player.h \
  T:/devkitPro/libogc/include/mad.h \
- T:/wii_code/projects/3dwii/include/input.hpp \
- T:/wii_code/projects/3dwii/include/spherePool.hpp \
- T:/wii_code/projects/3dwii/include/sphere.hpp \
- T:/wii_code/projects/3dwii/include/vectorUtils.hpp \
- T:/wii_code/projects/3dwii/include/projectilePool.hpp \
- T:/wii_code/projects/3dwii/include/projectile.hpp \
- T:/wii_code/projects/3dwii/include/camera.hpp \
- T:/wii_code/projects/3dwii/include/cube.hpp \
- T:/wii_code/projects/3dwii/include/sd.hpp \
- T:/wii_code/projects/3dwii/include/nlohmann/json.hpp \
- T:/wii_code/projects/3dwii/include/nlohmann/json.hpp \
- T:/wii_code/projects/3dwii/build/Letter_Gothic_Std_14_Bold_png.h
+ T:/wii_code/Projects/3dwii/include/input.hpp \
+ T:/wii_code/Projects/3dwii/include/spherePool.hpp \
+ T:/wii_code/Projects/3dwii/include/sphere.hpp \
+ T:/wii_code/Projects/3dwii/include/vectorUtils.hpp \
+ T:/wii_code/Projects/3dwii/include/projectilePool.hpp \
+ T:/wii_code/Projects/3dwii/include/projectile.hpp \
+ T:/wii_code/Projects/3dwii/include/camera.hpp \
+ T:/wii_code/Projects/3dwii/include/cube.hpp \
+ T:/wii_code/Projects/3dwii/include/sd.hpp \
+ T:/wii_code/Projects/3dwii/include/nlohmann/json.hpp \
+ T:/wii_code/Projects/3dwii/include/nlohmann/json.hpp \
+ T:/wii_code/Projects/3dwii/build/Letter_Gothic_Std_14_Bold_png.h
 T:/devkitPro/libogc/include/ogcsys.h:
 T:/devkitPro/libogc/include/gccore.h:
 T:/devkitPro/libogc/include/ogc/dsp.h:
@@ -163,15 +163,15 @@ T:/devkitPro/libogc/include/ogc/lwp_queue.h:
 T:/devkitPro/libogc/include/asndlib.h:
 T:/devkitPro/libogc/include/mp3player.h:
 T:/devkitPro/libogc/include/mad.h:
-T:/wii_code/projects/3dwii/include/input.hpp:
-T:/wii_code/projects/3dwii/include/spherePool.hpp:
-T:/wii_code/projects/3dwii/include/sphere.hpp:
-T:/wii_code/projects/3dwii/include/vectorUtils.hpp:
-T:/wii_code/projects/3dwii/include/projectilePool.hpp:
-T:/wii_code/projects/3dwii/include/projectile.hpp:
-T:/wii_code/projects/3dwii/include/camera.hpp:
-T:/wii_code/projects/3dwii/include/cube.hpp:
-T:/wii_code/projects/3dwii/include/sd.hpp:
-T:/wii_code/projects/3dwii/include/nlohmann/json.hpp:
-T:/wii_code/projects/3dwii/include/nlohmann/json.hpp:
-T:/wii_code/projects/3dwii/build/Letter_Gothic_Std_14_Bold_png.h:
+T:/wii_code/Projects/3dwii/include/input.hpp:
+T:/wii_code/Projects/3dwii/include/spherePool.hpp:
+T:/wii_code/Projects/3dwii/include/sphere.hpp:
+T:/wii_code/Projects/3dwii/include/vectorUtils.hpp:
+T:/wii_code/Projects/3dwii/include/projectilePool.hpp:
+T:/wii_code/Projects/3dwii/include/projectile.hpp:
+T:/wii_code/Projects/3dwii/include/camera.hpp:
+T:/wii_code/Projects/3dwii/include/cube.hpp:
+T:/wii_code/Projects/3dwii/include/sd.hpp:
+T:/wii_code/Projects/3dwii/include/nlohmann/json.hpp:
+T:/wii_code/Projects/3dwii/include/nlohmann/json.hpp:
+T:/wii_code/Projects/3dwii/build/Letter_Gothic_Std_14_Bold_png.h:
