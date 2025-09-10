@@ -41,18 +41,19 @@ This project has been made available to view to the public for those wishing to 
 - [devkitPro](https://github.com/devkitPro/installer)
 - [GRRLIB](https://github.com/GRRLIB/GRRLIB)
 
-### Build Environment
+### Development Environment
 I used Visual Studio 2022 with the following project include directories:
 ```
 path\to\your\devkitPro\libogc\include
-path\to\your\devkitPro\GRRLIB\GRRLIB-4.5.1\GRRLIB\GRRLIB
+path\to\your\GRRLIB\GRRLIB-4.5.1\GRRLIB\GRRLIB
 path\to\current\project\build
 path\to\current\project\include
 ```
 ### Build
-Run the Makefile provided at the root of this project (`make` inside of the console). A .elf and .dol file will be created in the root of the project. Rename the file to `boot.dol` and place it inside of a folder inside the \apps\ folder of your wii's sd card (`sd:\apps\gameFolder\boot.dol`). This can then be ran through the Homebrew Channel.
+Before building, ensure that you have devkitPro (including devkitPPC) and GRRLIB installed (i.e., devkitPPC available in the environment, and GRRLIB installed inside `devkitPro\portlibs\wii\`).
+Run the Makefile provided at the root of this project (`make` inside of the console). A .elf and .dol file will be created in the root of the project. Rename the .dol file to `boot.dol` and place it inside of a folder inside the \apps\ folder of your wii's sd card (`sd:\apps\exampleFolder\boot.dol`). This can then be ran through the Homebrew Channel.
 
-Note that in its current form, this project requires extra files provided through the releases page, otherwise elements of the game will not work (or the game will crash).
+Note that in its current form, this project requires extra files provided through the releases page, otherwise elements of the game will not work (or the game will crash, i haven't tested it).
 
 ## Credits / Tools Used
 - [devkitPro](https://devkitpro.org/)
