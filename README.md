@@ -51,6 +51,7 @@ path\to\current\project\include
 ```
 ### Build
 Before building, ensure that you have devkitPro (including devkitPPC) and GRRLIB installed (i.e., devkitPPC available in the environment, and GRRLIB installed inside `devkitPro\portlibs\wii\`).
+
 Run the Makefile provided at the root of this project (`make` inside of the console). A .elf and .dol file will be created in the root of the project. Rename the .dol file to `boot.dol` and place it inside of a folder inside the \apps\ folder of your wii's sd card (`sd:\apps\exampleFolder\boot.dol`). This can then be ran through the Homebrew Channel.
 
 Note that in its current form, this project requires extra files provided through the releases page, otherwise elements of the game will not work (or the game will crash, i haven't tested it).
