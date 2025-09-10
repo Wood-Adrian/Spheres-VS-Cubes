@@ -1,5 +1,5 @@
-projectile.o: T:/wii_code/projects/3dwii/source/projectile.cpp \
- T:/wii_code/projects/3dwii/include/projectile.hpp \
+projectile.o: T:/wii_code/Projects/3dwii/source/projectile.cpp \
+ T:/wii_code/Projects/3dwii/include/projectile.hpp \
  T:/devkitPro/libogc/include/ogcsys.h \
  T:/devkitPro/libogc/include/gccore.h \
  T:/devkitPro/libogc/include/ogc/dsp.h \
@@ -67,15 +67,15 @@ projectile.o: T:/wii_code/projects/3dwii/source/projectile.cpp \
  T:/devkitPro/portlibs/wii/include/grrlib/GRRLIB_pixel.h \
  T:/devkitPro/portlibs/wii/include/grrlib/GRRLIB_settings.h \
  T:/devkitPro/portlibs/wii/include/grrlib/GRRLIB_texSetup.h \
- T:/wii_code/projects/3dwii/include/sphere.hpp \
+ T:/wii_code/Projects/3dwii/include/sphere.hpp \
  T:/devkitPro/libogc/include/wiiuse/wpad.h \
  T:/devkitPro/libogc/include/wiiuse/wiiuse.h \
  T:/devkitPro/libogc/include/bte/bte.h \
  T:/devkitPro/libogc/include/bte/bd_addr.h \
  T:/devkitPro/libogc/include/ogc/lwp_watchdog.h \
  T:/devkitPro/libogc/include/ogc/lwp_queue.h \
- T:/wii_code/projects/3dwii/include/vectorUtils.hpp
-T:/wii_code/projects/3dwii/include/projectile.hpp:
+ T:/wii_code/Projects/3dwii/include/vectorUtils.hpp
+T:/wii_code/Projects/3dwii/include/projectile.hpp:
 T:/devkitPro/libogc/include/ogcsys.h:
 T:/devkitPro/libogc/include/gccore.h:
 T:/devkitPro/libogc/include/ogc/dsp.h:
@@ -143,11 +143,11 @@ T:/devkitPro/portlibs/wii/include/grrlib/GRRLIB_handle.h:
 T:/devkitPro/portlibs/wii/include/grrlib/GRRLIB_pixel.h:
 T:/devkitPro/portlibs/wii/include/grrlib/GRRLIB_settings.h:
 T:/devkitPro/portlibs/wii/include/grrlib/GRRLIB_texSetup.h:
-T:/wii_code/projects/3dwii/include/sphere.hpp:
+T:/wii_code/Projects/3dwii/include/sphere.hpp:
 T:/devkitPro/libogc/include/wiiuse/wpad.h:
 T:/devkitPro/libogc/include/wiiuse/wiiuse.h:
 T:/devkitPro/libogc/include/bte/bte.h:
 T:/devkitPro/libogc/include/bte/bd_addr.h:
 T:/devkitPro/libogc/include/ogc/lwp_watchdog.h:
 T:/devkitPro/libogc/include/ogc/lwp_queue.h:
-T:/wii_code/projects/3dwii/include/vectorUtils.hpp:
+T:/wii_code/Projects/3dwii/include/vectorUtils.hpp:

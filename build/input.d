@@ -1,5 +1,5 @@
-input.o: T:/wii_code/projects/3dwii/source/input.cpp \
- T:/wii_code/projects/3dwii/include/input.hpp \
+input.o: T:/wii_code/Projects/3dwii/source/input.cpp \
+ T:/wii_code/Projects/3dwii/include/input.hpp \
  T:/devkitPro/libogc/include/ogcsys.h \
  T:/devkitPro/libogc/include/gccore.h \
  T:/devkitPro/libogc/include/ogc/dsp.h \
@@ -59,7 +59,7 @@ input.o: T:/wii_code/projects/3dwii/source/input.cpp \
  T:/devkitPro/libogc/include/wiiuse/wiiuse.h \
  T:/devkitPro/libogc/include/bte/bte.h \
  T:/devkitPro/libogc/include/bte/bd_addr.h
-T:/wii_code/projects/3dwii/include/input.hpp:
+T:/wii_code/Projects/3dwii/include/input.hpp:
 T:/devkitPro/libogc/include/ogcsys.h:
 T:/devkitPro/libogc/include/gccore.h:
 T:/devkitPro/libogc/include/ogc/dsp.h:

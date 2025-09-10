@@ -1,6 +1,6 @@
-spherePool.o: T:/wii_code/projects/3dwii/source/spherePool.cpp \
- T:/wii_code/projects/3dwii/include/spherePool.hpp \
- T:/wii_code/projects/3dwii/include/sphere.hpp \
+spherePool.o: T:/wii_code/Projects/3dwii/source/spherePool.cpp \
+ T:/wii_code/Projects/3dwii/include/spherePool.hpp \
+ T:/wii_code/Projects/3dwii/include/sphere.hpp \
  T:/devkitPro/libogc/include/ogcsys.h \
  T:/devkitPro/libogc/include/gccore.h \
  T:/devkitPro/libogc/include/ogc/dsp.h \
@@ -74,9 +74,9 @@ spherePool.o: T:/wii_code/projects/3dwii/source/spherePool.cpp \
  T:/devkitPro/portlibs/wii/include/grrlib/GRRLIB_texSetup.h \
  T:/devkitPro/libogc/include/ogc/lwp_watchdog.h \
  T:/devkitPro/libogc/include/ogc/lwp_queue.h \
- T:/wii_code/projects/3dwii/include/vectorUtils.hpp
-T:/wii_code/projects/3dwii/include/spherePool.hpp:
-T:/wii_code/projects/3dwii/include/sphere.hpp:
+ T:/wii_code/Projects/3dwii/include/vectorUtils.hpp
+T:/wii_code/Projects/3dwii/include/spherePool.hpp:
+T:/wii_code/Projects/3dwii/include/sphere.hpp:
 T:/devkitPro/libogc/include/ogcsys.h:
 T:/devkitPro/libogc/include/gccore.h:
 T:/devkitPro/libogc/include/ogc/dsp.h:
@@ -150,4 +150,4 @@ T:/devkitPro/portlibs/wii/include/grrlib/GRRLIB_settings.h:
 T:/devkitPro/portlibs/wii/include/grrlib/GRRLIB_texSetup.h:
 T:/devkitPro/libogc/include/ogc/lwp_watchdog.h:
 T:/devkitPro/libogc/include/ogc/lwp_queue.h:
-T:/wii_code/projects/3dwii/include/vectorUtils.hpp:
+T:/wii_code/Projects/3dwii/include/vectorUtils.hpp:

@@ -2,6 +2,7 @@
 
 //#define DEBUG_MANUALMOVESPHERES
 //#define DEBUG_MANUALSPAWNSPHERES
+//#define DEBUG_MANUALDELETESPERE
 //#define DEBUG_TESTLOOP
 
 #include <stdio.h>
@@ -199,7 +200,7 @@ static void Init() {
 
 
 //draw a (currently multicoloured) cube with normal
-void DrawColourfulCubeNormal() {
+static void DrawColourfulCubeNormal() {
 
 	GX_Begin(GX_QUADS, GX_VTXFMT0, 4 * 6);
 
@@ -285,8 +286,15 @@ void DrawColourfulCubeNormal() {
 	GX_End();
 }
 
-void RunGame() {
+static void RunGame() {
+
+
+	////////////////////////////////
 	//init variables needed for game
+	////////////////////////////////
+	
+	
+
 	//i.e. camera, sphere+projectile pool/list, the map being used
 	Camera camera({ 0,0,0 }, 0.0, 0.0, 90.0);
 
@@ -379,6 +387,14 @@ void RunGame() {
 	int money = 100000;
 	bool paused = false;
 
+
+
+	//////////////////
+	//actual game loop
+	//////////////////
+
+
+
 	while (powerState == PowerState::ON) {
 		RefreshPads();
 
@@ -406,7 +422,7 @@ void RunGame() {
 		Printf(to_string(WPAD_ButtonsHeld(0)));
 		Printf(to_string(buttonHeld));
 
-		
+#ifdef DEBUG_MANUALDELETESPERE
 		//debug delete sphere
 		if (buttonDown & BUTTON_DOWN) {
 			if (sphereList.size() > 0) {
@@ -414,8 +430,14 @@ void RunGame() {
 				sphereList.erase(sphereList.begin());
 			}
 		}
+#endif
 
-		//move spheres
+
+		//////////////////////////////
+		//handle spheres + projectiles
+		//////////////////////////////
+
+
 #ifdef DEBUG_MANUALMOVESPHERES
 		if (buttonHeld & BUTTON_UP) {
 			//bool endOfPath = sphereList[0]->UpdatePosition(mapPath, deltaTime);
@@ -508,6 +530,12 @@ void RunGame() {
 			}
 		}
 
+
+		/////////////////////////
+		//cubes scan
+		/////////////////////////
+
+
 		//update cube times if necessary
 		if (timeDifference > 0) {
 			for (auto it = towerMap.begin(); it != towerMap.end(); it++) {
@@ -564,6 +592,13 @@ void RunGame() {
 			}
 		}
 		
+
+
+		/////////////////////
+		//player input handle
+		/////////////////////
+
+
 
 		//pause game
 		if (buttonDown & BUTTON_PAUSE) {
@@ -622,7 +657,7 @@ void RunGame() {
 
 		for (size_t i = 0; i < mapTowerPoints.size(); i++) {
 			guVector cameraToPoint = DirectionUnitVector(cameraData.pos, mapTowerPoints[i]);
-
+			
 			float mostCenteredPoint;
 			float currentCenteredPoint = guVecDotProduct(&cameraData.direction, &cameraToPoint);
 			if (currentCenteredPoint < 0.9f) continue;
@@ -657,6 +692,15 @@ void RunGame() {
 		Printf("dir z:" + to_string(cameraData.direction.z));
 
 		//*/
+
+
+
+		/////////////////////
+		//render game
+		/////////////////////
+
+
+
 
 		GRRLIB_Camera3dSettings(cameraData.pos.x, cameraData.pos.y, cameraData.pos.z, 0, 1, 0, cameraData.pos.x + cameraData.direction.x, cameraData.pos.y + cameraData.direction.y, cameraData.pos.z + cameraData.direction.z);
 
@@ -920,6 +964,14 @@ void RunGame() {
 
 		u64 timeSpheres = gettime() - timeAtFrameStart - timeEverythingElse;
 
+
+
+		/////////////////////
+		//user interface
+		/////////////////////
+
+
+
 		//ui
 		GRRLIB_2dMode();
 
@@ -935,7 +987,17 @@ void RunGame() {
 		GRRLIB_Screen2Texture(0, 0, texPrevFrame, GX_FALSE);
 
 
+
 		GRRLIB_Render();
+
+
+
+		////////////////////
+		//pause screen loops
+		////////////////////
+
+
+
 		//ticks_to_microsecs expanded and replaced here
 		deltaTime = ((double)((gettime() - timeAtFrameStart))) / 60.75;
 		timeAtFrameStart = gettime();
@@ -1066,7 +1128,7 @@ void RunGame() {
 	gameState = GameState::MAINMENU;
 }
 
-void MainMenu() {
+static void MainMenu() {
 	GRRLIB_2dMode();
 
 	const int numOptions = 4;
@@ -1227,7 +1289,7 @@ void MainMenu() {
 }
 
 
-void ShopMenu() {
+static void ShopMenu() {
 	saveGame["save"]["cubux"] = (long)saveGame["save"]["cubux"] + 1;
 	string message = "";
 	if (WriteSaveFile(saveGame, message)) {
@@ -1250,7 +1312,7 @@ void ShopMenu() {
 }
 
 //current test: what happens when not running 3d settings every frame
-void RunTest() {
+static void RunTest() {
 	Camera camera({ 0,0,10 }, 0.0, 0.0, 90.0);
 
 	CameraData camData = camera.GetCameraData();

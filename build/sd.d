@@ -1,5 +1,5 @@
-sd.o: T:/wii_code/projects/3dwii/source/sd.cpp \
- T:/wii_code/projects/3dwii/include/sd.hpp \
+sd.o: T:/wii_code/Projects/3dwii/source/sd.cpp \
+ T:/wii_code/Projects/3dwii/include/sd.hpp \
  T:/devkitPro/libogc/include/ogcsys.h \
  T:/devkitPro/libogc/include/gccore.h \
  T:/devkitPro/libogc/include/ogc/dsp.h \
@@ -55,8 +55,8 @@ sd.o: T:/wii_code/projects/3dwii/source/sd.cpp \
  T:/devkitPro/libogc/include/ogc/mutex.h \
  T:/devkitPro/libogc/include/ogc/system.h \
  T:/devkitPro/libogc/include/ogc/wiilaunch.h \
- T:/wii_code/projects/3dwii/include/nlohmann/json.hpp
-T:/wii_code/projects/3dwii/include/sd.hpp:
+ T:/wii_code/Projects/3dwii/include/nlohmann/json.hpp
+T:/wii_code/Projects/3dwii/include/sd.hpp:
 T:/devkitPro/libogc/include/ogcsys.h:
 T:/devkitPro/libogc/include/gccore.h:
 T:/devkitPro/libogc/include/ogc/dsp.h:
@@ -112,4 +112,4 @@ T:/devkitPro/libogc/include/ogc/usbstorage.h:
 T:/devkitPro/libogc/include/ogc/mutex.h:
 T:/devkitPro/libogc/include/ogc/system.h:
 T:/devkitPro/libogc/include/ogc/wiilaunch.h:
-T:/wii_code/projects/3dwii/include/nlohmann/json.hpp:
+T:/wii_code/Projects/3dwii/include/nlohmann/json.hpp:

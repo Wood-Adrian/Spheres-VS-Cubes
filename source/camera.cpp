@@ -67,15 +67,17 @@ void Camera::MoveRight(float distance) {
 	targetPos.z += (sinf(rotationHoz) / 16) * distance;
 }
 
+static const float distanceMultiplier = 0.0625f;
+
 void Camera::MoveForward(float distance) {
 	guVector scaledDistance;
-	guVecScale(&direction, &scaledDistance, 0.0625f * distance);
+	guVecScale(&direction, &scaledDistance, distanceMultiplier * distance);
 	guVecAdd(&targetPos, &scaledDistance, &targetPos);
 }
 
 void Camera::MoveBackward(float distance) {
 	guVector scaledDistance;
-	guVecScale(&direction, &scaledDistance, -0.0625f * distance);
+	guVecScale(&direction, &scaledDistance, -distanceMultiplier * distance);
 	guVecAdd(&targetPos, &scaledDistance, &targetPos);
 }
 
@@ -177,5 +179,8 @@ void Camera::UpdateCameraValues() {
 
 //change camera direction
 void Camera::UpdateDirectionValue() {
-	direction = DirectionUnitVector(pos, { pos.x + (sinf(rotationHoz) * cosf(rotationVer)), pos.y + sinf(rotationVer), pos.z - (cosf(rotationHoz) * cosf(rotationVer)) });
+	direction = DirectionUnitVector(pos,	{	pos.x + (sinf(rotationHoz) * cosf(rotationVer)), 
+												pos.y + sinf(rotationVer), 
+												pos.z - (cosf(rotationHoz) * cosf(rotationVer)) 
+											});
 }
