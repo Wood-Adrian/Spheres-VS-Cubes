@@ -93,11 +93,11 @@ public:
 	void SetType(u32 _type);
 
 	//get remaining health of sphere
-	double GetHealth();
+	double GetHealth() const;
 
 	//get if sphere is currently alive
 	//@return true if sphere is alive, false if dead
-	bool GetAlive();
+	bool GetAlive() const;
 
 	//set if sphere should be alive or not
 	//@param _alive Is alive?

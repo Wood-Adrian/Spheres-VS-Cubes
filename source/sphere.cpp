@@ -42,11 +42,11 @@ void Sphere::SetType(u32 _type) {
 	type = _type;
 }
 
-double Sphere::GetHealth() {
+double Sphere::GetHealth() const {
 	return health;
 }
 
-bool Sphere::GetAlive() {
+bool Sphere::GetAlive() const {
 	return alive;
 }
 

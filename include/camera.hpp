@@ -10,6 +10,7 @@
 #include <ogcsys.h>
 #include <gccore.h>
 
+#include "input.hpp"
 #include "vectorUtils.hpp"
 
 struct CameraData {
@@ -33,6 +34,7 @@ private:
 	float targetVer;
 	float FOV;
 
+	//update direction the camera is facing
 	void UpdateDirectionValue();
 
 public:
@@ -54,6 +56,8 @@ public:
 	void RotateCamera(float _rotateHoz, float _rotateVer);
 	//move target of camera position by given values
 	void MoveCamera(guVector _pos);
+	//move target of camera position all in one by "camera inputs"
+	void MoveCamera(Stick leftStick, Stick rightStick, float leftTrigger, float rightTrigger, double deltaTime);
 	//move camera up (0-1)
 	void MoveUp(float distance);
 	//move camera down (0-1)
@@ -66,7 +70,7 @@ public:
 	void MoveForward(float distance);
 	//move camera backwards (0-1)
 	void MoveBackward(float distance);
-	//update position/rotation to get closer to target (run every frame before render
+	//update position/rotation to get closer to target (run every frame before render)
 	void UpdateCameraValues(void);
 
 };

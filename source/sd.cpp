@@ -16,7 +16,7 @@ static bool SaveExists() {
 
 //creates save file (only if file does not exist)
 //@return >0 on success, 0 on fail, -1 on save.json already exists
-int CreateSaveFile() {
+static int CreateSaveFile() {
 	if (SaveExists()) return -1;
 
 	std::ofstream saveStreamOut(saveFolderPath + saveName);

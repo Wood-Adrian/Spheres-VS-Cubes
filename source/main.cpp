@@ -187,6 +187,7 @@ static void Init() {
 			Printf("from a corrupt save file.");
 			Printf("If so, corrupt save file has been backed up");
 			Printf("incase you want to try recover it.");
+			Printf("");
 			Printf("Press any button to continue...");
 
 			if (GetButtonsDown(0)) break;
@@ -606,11 +607,13 @@ static void RunGame() {
 		}
 		
 		//camera movement
-		camera.MoveUp(buttonTriggerL * deltaTime);
-		camera.MoveDown(buttonTriggerR * deltaTime);
-		camera.MoveForward(buttonStickL.y * deltaTime);
-		camera.MoveRight(buttonStickL.x * deltaTime);
-		camera.RotateCamera(buttonStickR.x * deltaTime, buttonStickR.y * deltaTime);
+		//camera.MoveUp(buttonTriggerL * deltaTime);
+		//camera.MoveDown(buttonTriggerR * deltaTime);
+		//camera.MoveForward(buttonStickL.y * deltaTime);
+		//camera.MoveRight(buttonStickL.x * deltaTime);
+		//camera.RotateCamera(buttonStickR.x * deltaTime, buttonStickR.y * deltaTime);
+
+		camera.MoveCamera(buttonStickL, buttonStickR, buttonTriggerL, buttonTriggerR, deltaTime);
 
 		//selected tower controls
 		if (selectedTower >= 0) {
@@ -1311,55 +1314,169 @@ static void ShopMenu() {
 	gameState = GameState::MAINMENU;
 }
 
-//current test: what happens when not running 3d settings every frame
+//current test: vector bs
 static void RunTest() {
-	Camera camera({ 0,0,10 }, 0.0, 0.0, 90.0);
 
-	CameraData camData = camera.GetCameraData();
-	GRRLIB_Camera3dSettings(camData.pos.x, camData.pos.y, camData.pos.z, 0, 1, 0, camData.direction.x + camData.pos.x, camData.direction.y + camData.pos.y, camData.direction.z + camData.pos.z);
-	GRRLIB_3dMode(0.1f, 100.0f, camData.FOV, 0, 1);
+	Camera camera({ 0,0,0 }, 0.0, 0.0, 90.0);
+
+	int current = 0;
+
+	const size_t rayNum = 5;
+
+	guVector rayOrigin[rayNum] = { {1, -6, 12}, {-3, 4.23, 0.124}, {10, -10, -14}, {3, 1, 3}, {0, 5, 0} };
+	guVector rayHeadTowards[rayNum] = { { -0.6, 2, -6 }, { 0, 2, 3 }, { 0.2, 2, 3 }, {-2, 1, -4}, {0, 10, 0} };
+
+	GRRLIB_SetBackgroundColour(0x00, 0x00, 0x00, 0xff);
 
 	while (powerState == PowerState::ON) {
-		logOffset = 1;
 		RefreshPads();
-		
-		u32 buttonHeld = WPAD_ButtonsHeld(0);
-		u32 buttonDown = WPAD_ButtonsDown(0);
+		logOffset = 2;
+
+		//get controller inputs
+		u32 buttonDown = GetButtonsDown(0);
+		u32 buttonHeld = GetButtonsHeld(0);
 		Stick buttonStickL = GetLeftStick(0);
 		Stick buttonStickR = GetRightStick(0);
 		float buttonTriggerL = GetLeftTrigger(0);
 		float buttonTriggerR = GetRightTrigger(0);
-		double deltaTime = 1;
 
-		//camera movement
-		camera.MoveUp(buttonTriggerL * deltaTime);
-		camera.MoveDown(buttonTriggerR * deltaTime);
-		camera.MoveForward(buttonStickL.y * deltaTime);
-		camera.MoveRight(buttonStickL.x * deltaTime);
-		camera.RotateCamera(buttonStickR.x * deltaTime, buttonStickR.y * deltaTime);
+		GRRLIB_2dMode();
 
-		if (buttonDown & BUTTON_PAUSE) {
-			break;
+		guVector rayDirection[rayNum];
+		for (size_t i = 0; i < rayNum; i++) {
+			rayDirection[i] = DirectionUnitVector(rayOrigin[i], rayHeadTowards[i]);
+		}
+		guVector triangle[3] = { {-4.7, 0, -1}, {5.89, 1, 4.5}, {1, -0.24, -6} };
+		guVector result;
+
+		Printf("x: " + to_string(rayOrigin[current].x) + " y: " + to_string(rayOrigin[current].y) + " z: " + to_string(rayOrigin[current].z));
+		Printf("Vector Results:");
+
+		bool intersect = RayIntersectTriangle(rayOrigin[current], rayDirection[current], triangle[0], triangle[1], triangle[2], result);
+
+
+		guVector normal;
+		const guVector edge1 = guVector({ triangle[1].x - triangle[0].x,
+											triangle[1].y - triangle[0].y,
+											triangle[1].z - triangle[0].z
+			});
+		const guVector edge2 = guVector({ triangle[2].x - triangle[0].x,
+											triangle[2].y - triangle[0].y,
+											triangle[2].z - triangle[0].z
+			});
+		guVecCross(&edge1, &edge2, &normal);
+
+		Printf("Normal: ");
+		Printf("x: " + to_string(normal.x) + " y: " + to_string(normal.y) + " z: " + to_string(normal.z));
+		Printf("Intersect?: " + intersect);
+		Printf("Result: ");
+		Printf("x: " + to_string(result.x) + " y: " + to_string(result.y) + " z: " + to_string(result.z));
+
+
+		camera.MoveCamera(buttonStickL, buttonStickR, buttonTriggerL, buttonTriggerR, 1);
+
+		camera.UpdateCameraValues();
+		CameraData cameraData = camera.GetCameraData();
+
+		GRRLIB_Camera3dSettings(cameraData.pos.x, cameraData.pos.y, cameraData.pos.z, 0, 1, 0, cameraData.pos.x + cameraData.direction.x, cameraData.pos.y + cameraData.direction.y, cameraData.pos.z + cameraData.direction.z);
+
+		GRRLIB_3dMode(0.1, 1000, cameraData.FOV, 0, 1);
+
+		GRRLIB_ObjectView(rayOrigin[current].x, rayOrigin[current].y, rayOrigin[current].z, 0, 0, 0, 1, 1, 1);
+
+		// ray origin
+		GRRLIB_DrawSphere(0.5, 6, 6, true, RGBA(0xff, 0xff, 0xff, 0xff));
+
+		//point of intersection if exists
+		if (intersect) {
+			GRRLIB_ObjectView(result.x, result.y, result.z, 0, 0, 0, 1, 1, 1);
+			GRRLIB_DrawSphere(0.125, 6, 6, true, 0x00ff00ff);
 		}
 
-		GRRLIB_ObjectView(0,0,0, 0,0,0, 1,1,1);
-		DrawColourfulCubeNormal();
+		GRRLIB_3dMode(0.1, 1000, cameraData.FOV, 0, 0);
+		GRRLIB_ObjectView(0, 0, 0, 0, 0, 0, 1, 1, 1);
+		
+		//ray direction of travel
+		GX_Begin(GX_LINES, GX_VTXFMT0, 2);
 
+			GX_Position3f32(rayOrigin[current].x, rayOrigin[current].y, rayOrigin[current].z);
+			GX_Color1u32(0xff0000ff);
+			GX_Position3f32(rayHeadTowards[current].x, rayHeadTowards[current].y, rayHeadTowards[current].z);
+			GX_Color1u32(0xff0000ff);
+
+		GX_End();
+
+		//triangle
+		GX_Begin(GX_TRIANGLES, GX_VTXFMT0, 3);
+
+			GX_Position3f32(triangle[0].x, triangle[0].y, triangle[0].z);
+			GX_Color1u32(0xff0000ff);
+			GX_Position3f32(triangle[1].x, triangle[1].y, triangle[1].z);
+			GX_Color1u32(0x00ff00ff);
+			GX_Position3f32(triangle[2].x, triangle[2].y, triangle[2].z);
+			GX_Color1u32(0x0000ffff);
+
+		GX_End();
+
+
+
+		//triangle normal
+		GX_Begin(GX_LINES, GX_VTXFMT0, 6);
+
+			GX_Position3f32(triangle[0].x, triangle[0].y, triangle[0].z);
+			GX_Color1u32(0x00ff00ff);
+			GX_Position3f32(triangle[0].x + normal.x, triangle[0].y + normal.y, triangle[0].z + normal.z);
+			GX_Color1u32(0x00ff00ff);
+
+			GX_Position3f32(triangle[1].x, triangle[1].y, triangle[1].z);
+			GX_Color1u32(0x00ff00ff);
+			GX_Position3f32(triangle[1].x + normal.x, triangle[1].y + normal.y, triangle[1].z + normal.z);
+			GX_Color1u32(0x00ff00ff);
+
+			GX_Position3f32(triangle[2].x, triangle[2].y, triangle[2].z);
+			GX_Color1u32(0x00ff00ff);
+			GX_Position3f32(triangle[2].x + normal.x, triangle[2].y + normal.y, triangle[2].z + normal.z);
+			GX_Color1u32(0x00ff00ff);
+
+		GX_End();
+
+		//visualise the p vector and others
+		guVector pointToUse = (intersect) ? result : rayHeadTowards[current];
+
+		GX_Begin(GX_LINES, GX_VTXFMT0, 4);
+			//A->C
+			GX_Position3f32(pointToUse.x, pointToUse.y, pointToUse.z);
+			GX_Color1u32(0xffffffff);
+			GX_Position3f32(edge2.x + pointToUse.x, edge2.y + pointToUse.y, edge2.z + pointToUse.z);
+			GX_Color1u32(0xffffffff);
+			//normal
+			GX_Position3f32(pointToUse.x, pointToUse.y, pointToUse.z);
+			GX_Color1u32(0xffffffff);
+			GX_Position3f32(normal.x + pointToUse.x, normal.y + pointToUse.y, normal.z + pointToUse.z);
+			GX_Color1u32(0xffffffff);
+
+		GX_End();
+
+		if (buttonDown & BUTTON_PAUSE) break;
+
+		if (buttonDown & BUTTON_SELECT) current++;
+		if (buttonDown & BUTTON_DESELECT) current--;
+
+		if (buttonHeld & BUTTON_UP) {
+			rayOrigin[0].x += 0.01;
+			rayHeadTowards[0].x += 0.01;
+		}
+		if (buttonHeld & BUTTON_DOWN) {
+			rayOrigin[0].x -= 0.01;
+			rayHeadTowards[0].x -= 0.01;
+		}
+
+		current = std::max(0, std::min(((int)rayNum - 1), current));
 		GRRLIB_Render();
 	}
-
-	/*
-	while (1) {
-		logOffset = 2;
-		Printf("exited test loop!");
-		GRRLIB_Render();
-		WPAD_ScanPads();
-		if (WPAD_ButtonsDown(0)) break;
-	}
-	//*/
-
-	gameState = GameState::MAINMENU;
+	powerState = PowerState::TOLOADER;
 }
+
 
 int main(int argc, char* argv[]) {
 	Init();
@@ -1471,4 +1588,66 @@ else {
 		camera.pos.z -= (sinf(camera.rotationHoz) / 16) * deltaTime;
 	}
 }
+*/
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//TEST ARCHIVE
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+
+//current test: what happens when not running 3d settings every frame
+static void RunTest() {
+	Camera camera({ 0,0,10 }, 0.0, 0.0, 90.0);
+
+	CameraData camData = camera.GetCameraData();
+	GRRLIB_Camera3dSettings(camData.pos.x, camData.pos.y, camData.pos.z, 0, 1, 0, camData.direction.x + camData.pos.x, camData.direction.y + camData.pos.y, camData.direction.z + camData.pos.z);
+	GRRLIB_3dMode(0.1f, 100.0f, camData.FOV, 0, 1);
+
+	while (powerState == PowerState::ON) {
+		logOffset = 1;
+		RefreshPads();
+
+		u32 buttonHeld = WPAD_ButtonsHeld(0);
+		u32 buttonDown = WPAD_ButtonsDown(0);
+		Stick buttonStickL = GetLeftStick(0);
+		Stick buttonStickR = GetRightStick(0);
+		float buttonTriggerL = GetLeftTrigger(0);
+		float buttonTriggerR = GetRightTrigger(0);
+		double deltaTime = 1;
+
+		//camera movement
+		camera.MoveUp(buttonTriggerL * deltaTime);
+		camera.MoveDown(buttonTriggerR * deltaTime);
+		camera.MoveForward(buttonStickL.y * deltaTime);
+		camera.MoveRight(buttonStickL.x * deltaTime);
+		camera.RotateCamera(buttonStickR.x * deltaTime, buttonStickR.y * deltaTime);
+
+		if (buttonDown & BUTTON_PAUSE) {
+			break;
+		}
+
+		GRRLIB_ObjectView(0,0,0, 0,0,0, 1,1,1);
+		DrawColourfulCubeNormal();
+
+		GRRLIB_Render();
+	}
+
+	/*
+	while (1) {
+		logOffset = 2;
+		Printf("exited test loop!");
+		GRRLIB_Render();
+		WPAD_ScanPads();
+		if (WPAD_ButtonsDown(0)) break;
+	}
+	*-/
+
+gameState = GameState::MAINMENU;
+}
+
 */

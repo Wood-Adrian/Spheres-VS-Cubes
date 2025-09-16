@@ -49,6 +49,16 @@ void Camera::MoveCamera(guVector pos) {
 	guVecAdd(&targetPos, &pos, &targetPos);
 }
 
+void Camera::MoveCamera(Stick leftStick, Stick rightStick, float leftTrigger, float rightTrigger, double deltaTime) {
+	MoveUp(leftTrigger * deltaTime);
+	MoveDown(rightTrigger * deltaTime);
+	MoveForward(leftStick.y * deltaTime);
+	MoveRight(leftStick.x * deltaTime);
+	RotateCamera(rightStick.x * deltaTime, rightStick.y * deltaTime);
+}
+
+
+
 void Camera::MoveUp(float distance) {
 	targetPos.y += distance / 16.0f;
 }

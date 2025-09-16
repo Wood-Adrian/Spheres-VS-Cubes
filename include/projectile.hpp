@@ -46,11 +46,11 @@ public:
 
 	//get position of projectile
 	//@return vector of position
-	guVector GetPosition();
+	guVector GetPosition() const;
 
-	double GetDamage();
+	double GetDamage() const;
 
-	bool GetAlive();
+	bool GetAlive() const;
 
 	//updates the position of the projectile based on direction and speed
 	//@param deltaTime current delta time of the frame

@@ -16,12 +16,16 @@ void Projectile::Activate(guVector _position, guVector _direction, float _speed,
 	spheresHit.clear();
 }
 
-guVector Projectile::GetPosition() {
+guVector Projectile::GetPosition() const {
 	return position;
 }
 
-double Projectile::GetDamage() {
+double Projectile::GetDamage() const {
 	return damage;
+}
+
+bool Projectile::GetAlive() const {
+	return alive;
 }
 
 bool Projectile::UpdatePosition(double deltaTime) {
@@ -52,9 +56,5 @@ bool Projectile::SphereHit(std::shared_ptr<Sphere> sphere) {
 	if (spheresHit.size() >= pierce) {
 		alive = false;
 	}
-	return alive;
-}
-
-bool Projectile::GetAlive() {
 	return alive;
 }
