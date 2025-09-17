@@ -45,6 +45,9 @@
     <ClCompile Include="source\sd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\obj3d.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sphere.hpp">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\sd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\obj3d.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

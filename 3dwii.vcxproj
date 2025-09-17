@@ -133,6 +133,7 @@
     <ClCompile Include="source\cube.cpp" />
     <ClCompile Include="source\input.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\obj3d.cpp" />
     <ClCompile Include="source\projectile.cpp" />
     <ClCompile Include="source\projectilePool.cpp" />
     <ClCompile Include="source\sd.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="include\camera.hpp" />
     <ClInclude Include="include\cube.hpp" />
     <ClInclude Include="include\input.hpp" />
+    <ClInclude Include="include\obj3d.hpp" />
     <ClInclude Include="include\projectile.hpp" />
     <ClInclude Include="include\projectilePool.hpp" />
     <ClInclude Include="include\sd.hpp" />

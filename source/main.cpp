@@ -1,7 +1,7 @@
 #define HW_RVL
 
 //#define DEBUG_MANUALMOVESPHERES
-//#define DEBUG_MANUALSPAWNSPHERES
+#define DEBUG_MANUALSPAWNSPHERES
 //#define DEBUG_MANUALDELETESPERE
 //#define DEBUG_TESTLOOP
 
@@ -31,6 +31,7 @@
 #include "vectorUtils.hpp"
 #include "cube.hpp"
 #include "sd.hpp"
+#include "obj3d.hpp"
 
 #include "nlohmann/json.hpp"
 
@@ -50,12 +51,14 @@ enum class GameState {
 	TEST
 };
 
-//these represent the power states used by Sys_ResetSystem(), except i think 0 idk what that normally is
+//these represent the power states used by Sys_ResetSystem(), except 0 which is a force reset, but im using it to boot to hb menu
 enum class PowerState {
 	ON = -1,
 	TOLOADER = 0,
 	OFF = 4
 };
+
+static const string filePath = "sd:/apps/3dwii/";
 
 static GameState gameState = GameState::MAINMENU;
 static PowerState powerState = PowerState::ON;
@@ -63,6 +66,8 @@ static PowerState powerState = PowerState::ON;
 static GRRLIB_texImg* texFont;
 static GRRLIB_texImg* texPrevFrame;
 static GRRLIB_texImg* texPlatform;
+
+static GRRLIB_texImg* texEmpty;
 
 static json saveGame;
 
@@ -78,7 +83,7 @@ static void WiimotePowerCallback(s32 chan) {
 }
 
 static int logOffset = 1;
-static void Printf(std::string inputString) {
+static void Printf(string inputString) {
 	const int allowedLetters = 50;
 	while (inputString.length() > 0) {
 		string outString = inputString;
@@ -114,7 +119,8 @@ static void Init() {
 	
 
 	texPrevFrame = GRRLIB_CreateEmptyTexture(rmode->fbWidth, rmode->efbHeight);
-	texPlatform = GRRLIB_LoadTextureFromFile("sd:/apps/3dwii/maps/textures/testmap1.png");
+	texEmpty = GRRLIB_CreateEmptyTexture(1, 1);
+	texPlatform = GRRLIB_LoadTextureFromFile((filePath + "maps/graphics/testmap1.png").c_str());
 	
 	//init gamecube controllers
 	PAD_Init();
@@ -308,7 +314,8 @@ static void RunGame() {
 
 
 	//test map init
-	std::ifstream mapFilePath("sd:/apps/3dwii/maps/data/testmap1.json");
+	Obj3d mapGeometry(filePath + "maps/graphics/testmap1.obj");
+	std::ifstream mapFilePath(filePath + "maps/data/testmap1.json");
 	json mapData = json::parse(mapFilePath);
 	if (mapFilePath.is_open()) {
 		mapFilePath.close();
@@ -331,6 +338,7 @@ static void RunGame() {
 		mapTowerPoints.push_back({ (*it)["x"], (*it)["y"], (*it)["z"] });
 	}
 
+
 	//towerMap[i] represents tower at mapTowerPoints[i]'s co-ordinates
 	TowerMap towerMap;
 	//init towerMap so that all indexes filled with empty vector<Cube>
@@ -339,7 +347,7 @@ static void RunGame() {
 	}
 
 	//init list of spheres in each round
-	std::ifstream waveFilePath("sd:/apps/3dwii/data/waves.json");
+	std::ifstream waveFilePath(filePath + "data/waves.json");
 	json waveData = json::parse(waveFilePath);
 	if (waveFilePath.is_open()) {
 		waveFilePath.close();
@@ -816,7 +824,6 @@ static void RunGame() {
 		GRRLIB_ObjectView(0, -2, 0, 0,0,0, 1, 1, 1);
 		DrawColourfulCubeNormal();
 
-		//old platform place
 
 		u64 timeEverythingElse = gettime() - timeAtFrameStart;
 
@@ -825,7 +832,7 @@ static void RunGame() {
 
 			//frustum culling
 			guVector cameraToPoint = DirectionUnitVector(cameraData.pos, sphereList[i]->GetPosition());
-			if (guVecDotProduct(&cameraData.direction, &cameraToPoint) < cosf(DegToRad(cameraData.FOV / 1.5f))) continue;
+			//if (guVecDotProduct(&cameraData.direction, &cameraToPoint) < cosf(DegToRad(cameraData.FOV / 1.5f))) continue;
 
 			GRRLIB_ObjectView(sphereList[i]->GetPosition().x, sphereList[i]->GetPosition().y, sphereList[i]->GetPosition().z, 0, 0, 0, 1, 1, 1);
 
@@ -851,7 +858,7 @@ static void RunGame() {
 
 			//frustum culling
 			guVector cameraToPoint = DirectionUnitVector(cameraData.pos, projectileList[i]->GetPosition());
-			if (guVecDotProduct(&cameraData.direction, &cameraToPoint) < cosf(DegToRad(cameraData.FOV / 1.5f))) continue;
+			//if (guVecDotProduct(&cameraData.direction, &cameraToPoint) < cosf(DegToRad(cameraData.FOV / 1.5f))) continue;
 
 			GRRLIB_ObjectView(projectileList[i]->GetPosition().x, projectileList[i]->GetPosition().y, projectileList[i]->GetPosition().z, 0, 0, 0, 1, 1, 1);
 			GRRLIB_DrawSphere(0.125f, 6, 6, true, RGBA(0xff, 0xff, 0xff, 0xff));
@@ -863,7 +870,7 @@ static void RunGame() {
 
 			//frustum culling
 			guVector cameraToPoint = DirectionUnitVector(cameraData.pos, mapTowerPoints[i]);
-			if (guVecDotProduct(&cameraData.direction, &cameraToPoint) < cosf(DegToRad(cameraData.FOV/1.5f))) continue;
+			//if (guVecDotProduct(&cameraData.direction, &cameraToPoint) < cosf(DegToRad(cameraData.FOV/1.5f))) continue;
 
 			GRRLIB_ObjectView(mapTowerPoints[i].x, mapTowerPoints[i].y, mapTowerPoints[i].z, 0, 0, 0, 1, 1, 1);
 			GRRLIB_DrawSphere(0.25f, 8, 8, true, RGBA(0xff, 0x33, 0x33, 0xff));
@@ -875,17 +882,24 @@ static void RunGame() {
 
 				//frustum culling
 				guVector cameraToPoint = DirectionUnitVector(cameraData.pos, jt->GetPosition());
-				if (guVecDotProduct(&cameraData.direction, &cameraToPoint) < cosf(DegToRad(cameraData.FOV / 1.5f))) continue;
+				//if (guVecDotProduct(&cameraData.direction, &cameraToPoint) < cosf(DegToRad(cameraData.FOV / 1.5f))) continue;
 
 				guVector cubePos = jt->GetPosition();
 				GRRLIB_ObjectView(cubePos.x, cubePos.y, cubePos.z, 0, RadToDeg(jt->GetRotation()), 0, 1, 1, 1);
 				GRRLIB_DrawCube(2.0f, true, Cube::Colour(0));
 			}
 		}
+
+		GRRLIB_3dMode(0.1, 1000, cameraData.FOV, 1, 1);
+
+		//map geometry
+		GRRLIB_ObjectView(0, 20, 0, 0, 0, 0, 2, 2, 2);
+		GRRLIB_SetTexture(texPlatform, 0);
+		mapGeometry.DrawObject();
+
 		//3 platforms to test transparency
 		//platform
 		GRRLIB_ObjectView(0, -5, 0, 0, 0, 0, 20, 1, 20);
-		GRRLIB_3dMode(0.1, 1000, cameraData.FOV, 1, 1);
 
 		GRRLIB_SetTexture(texPlatform, 0);
 		
@@ -913,7 +927,6 @@ static void RunGame() {
 
 		//platform
 		GRRLIB_ObjectView(0, -8, 0, 0, 0, 0, 20, 1, 20);
-		GRRLIB_3dMode(0.1, 1000, cameraData.FOV, 1, 1);
 
 		GRRLIB_SetTexture(texPlatform, 0);
 
@@ -940,7 +953,6 @@ static void RunGame() {
 
 		//platform
 		GRRLIB_ObjectView(0, -11, 0, 0, 0, 0, 20, 1, 20);
-		GRRLIB_3dMode(0.1, 1000, cameraData.FOV, 1, 1);
 
 		GRRLIB_SetTexture(texPlatform, 0);
 
@@ -964,6 +976,18 @@ static void RunGame() {
 		GX_TexCoord2f32(1.0f, 0.0f);
 
 		GX_End();
+
+
+		//map path
+		GRRLIB_ObjectView(0, 0, 0, 0, 0, 0, 1, 1, 1);
+		GRRLIB_3dMode(0.1, 1000, cameraData.FOV, 0, 0);
+
+		GX_Begin(GX_LINESTRIP, GX_VTXFMT0, mapPath.size()); {
+			for (size_t i = 0; i < mapPath.size(); i++) {
+				GX_Position3f32(mapPath[i].x, mapPath[i].y, mapPath[i].z);
+				GX_Color1u32(RGBA(0xff, 0xff, 0xff, 0xff));
+			}
+		} GX_End();
 
 		u64 timeSpheres = gettime() - timeAtFrameStart - timeEverythingElse;
 
@@ -1284,11 +1308,13 @@ static void MainMenu() {
 		Printf(to_string(texPrevFrame->offsetx) + " offset " + to_string(texPrevFrame->offsety));
 		Printf(to_string(texPrevFrame->handlex) + " handle " + to_string(texPrevFrame->handley));
 		*/
+
+		//Printf("vtx: " + to_string(Test.faces[0].vtxa.x) + " " + to_string(Test.faces[0].vtxa.y) + " " + to_string(Test.faces[0].vtxa.z));
+		//Printf("nrm: " + to_string(Test.faces[0].nrma.x) + " " + to_string(Test.faces[0].nrma.y) + " " + to_string(Test.faces[0].nrma.z));
+		//Printf("tx: " + to_string(Test.faces[0].txa.x) + " " + to_string(Test.faces[0].txa.y));
+
 		GRRLIB_Render();
 	}
-#ifdef DEBUG_TESTLOOP
-	gameState = GameState::TEST;
-#endif
 }
 
 
@@ -1481,6 +1507,10 @@ static void RunTest() {
 int main(int argc, char* argv[]) {
 	Init();
 
+#ifdef DEBUG_TESTLOOP
+	gameState = GameState::TEST;
+#endif
+
 	while (powerState == PowerState::ON) {
 		switch (gameState) {
 		case GameState::MAINMENU:
@@ -1637,7 +1667,7 @@ static void RunTest() {
 		GRRLIB_Render();
 	}
 
-	/*
+	
 	while (1) {
 		logOffset = 2;
 		Printf("exited test loop!");
@@ -1645,7 +1675,7 @@ static void RunTest() {
 		WPAD_ScanPads();
 		if (WPAD_ButtonsDown(0)) break;
 	}
-	*-/
+	
 
 gameState = GameState::MAINMENU;
 }
